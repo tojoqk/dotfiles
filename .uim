@@ -1,0 +1,12 @@
+(define default-im-name 'skk)
+(define-key generic-on-key?
+  '("<Control>\\"))
+(define-key generic-off-key?
+  '("<Control>\\"))
+
+(define-key skk-on-key?
+  '("<Control>o"))
+(define-key skk-commit-key?
+  '("<Control>o"))
+(define-key skk-state-direct-no-preedit-nop-key?
+  '("<Control>o"))
