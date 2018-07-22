@@ -55,6 +55,13 @@ This function should only modify configuration layer settings."
      version-control
 
      racket
+     ruby
+     ruby-on-rails
+     html
+     javascript
+     ansible
+     yaml
+     haml
      )
 
    ;; List of additional packages that will be installed without being
@@ -456,6 +463,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; Ruby
+  (setq ruby-insert-encoding-magic-comment nil)
 
   ;; SKK
   (setq default-input-method "japanese-skk")
