@@ -63,6 +63,7 @@ This function should only modify configuration layer settings."
      yaml
      haml
 
+     common-lisp
      docker
      )
 
