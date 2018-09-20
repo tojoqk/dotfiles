@@ -466,6 +466,24 @@ before packages are loaded."
 
   ;; Ruby
   (setq ruby-insert-encoding-magic-comment nil)
+  (add-to-list 'spacemacs-indent-sensitive-modes 'ruby-mode)
+
+  ;; from https://stackoverflow.com/questions/7961533/emacs-ruby-method-parameter-indentation
+  (defadvice ruby-indent-line (after unindent-closing-paren activate)
+    (let ((column (current-column))
+          indent
+          offset)
+      (save-excursion
+        (back-to-indentation)
+        (let ((state (syntax-ppss)))
+          (setq offset (- column (current-column)))
+          (when (and (eq (char-after) ?\))
+                     (not (zerop (car state))))
+            (goto-char (cadr state))
+            (setq indent (current-indentation)))))
+      (when indent
+        (indent-line-to indent)
+        (when (> offset 0) (forward-char offset)))))
 
   ;; SKK
   (setq default-input-method "japanese-skk")
@@ -482,21 +500,6 @@ before packages are loaded."
   (setq racket-mode-hook
         (lambda ()
           (paredit-mode t)))
-
-  (defadvice ruby-indent-line (after unindent-closing-paren activate)
-    (let ((column (current-column))
-          indent offset)
-      (save-excursion
-        (back-to-indentation)
-        (let ((state (syntax-ppss)))
-          (setq offset (- column (current-column)))
-          (when (and (eq (char-after) ?\))
-                     (not (zerop (car state))))
-            (goto-char (cadr state))
-            (setq indent (current-indentation)))))
-      (when indent
-        (indent-line-to indent)
-        (when (> offset 0) (forward-char offset)))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
