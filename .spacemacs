@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
      haml
 
      common-lisp
+     terraform
      docker
      )
 
