@@ -503,6 +503,9 @@ before packages are loaded."
   (setq racket-mode-hook
         (lambda ()
           (paredit-mode t)))
+
+  ;; Common Lisp
+  (setq inferior-lisp-program "sbcl")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
