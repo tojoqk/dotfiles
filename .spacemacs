@@ -48,8 +48,8 @@ This function should only modify configuration layer settings."
      neotree
      org
      (shell :variables
-             shell-default-height 30
-             shell-default-position 'bottom)
+            shell-default-height 30
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
