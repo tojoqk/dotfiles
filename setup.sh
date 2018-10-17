@@ -1,3 +1,3 @@
 #!/bin/sh
-ln -s ~/dotfiles/.spacemacs ~/.spacemacs
-ln -s ~/dotfiles/.uim ~/
+ln -s ~/dotfiles/spacemacs ~/.spacemacs
+ln -s ~/dotfiles/uim ~/
