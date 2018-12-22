@@ -602,6 +602,12 @@ before packages are loaded."
   (setq skk-check-okurigana-on-touroku t)
   (require 'skk-study)
 
+  ;; Scheme
+  (setq scheme-program-name "scheme")
+  (setq scheme-mode-hook
+        (lambda ()
+          (paredit-mode t)))
+
   ;; Emacs Lisp
   (setq emacs-lisp-mode-hook
         (lambda ()
