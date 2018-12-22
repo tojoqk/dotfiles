@@ -453,6 +453,11 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq exec-path-from-shell-arguments '("-l"))
+
+  ;; Scheme
+  (add-to-list 'auto-mode-alist '("\\.sls\\'" . scheme-mode))
+  (add-to-list 'auto-mode-alist '("\\.sps\\'" . scheme-mode))
+
   )
 
 (defun dotspacemacs/user-load ()
