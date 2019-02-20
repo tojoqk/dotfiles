@@ -25,6 +25,12 @@ There are two things you can do about this warning:
   (package-refresh-contents)
   (package-install 'use-package))
 
+(unless (require 'skk nil t)
+  (package-refresh-contents)
+  (package-install 'ddskk))
+(setq default-input-method "japanese-skk")
+(setq skk-kakutei-key (kbd "C-o"))
+
 (use-package paredit
   :ensure t
   :config 
@@ -36,13 +42,14 @@ There are two things you can do about this warning:
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
 
-(use-package ivy
+(use-package helm
   :ensure t
-  :config (ivy-mode 1))
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "M-x") 'helm-M-x)	    ;; M-X を 絞り込み
+  (global-set-key (kbd "C-x C-f") 'helm-find-files))
 
-(use-package counsel
-  :ensure t
-  :config (counsel-mode 1))
+(use-package helm-config)
 
 (use-package magit
   :ensure t)
@@ -60,10 +67,18 @@ There are two things you can do about this warning:
 (use-package review-mode
   :ensure t)
 
-(use-package ddskk
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on)
+  (global-set-key (kbd "C-c p") 'projectile-command-map))
+
+(use-package helm-ag
   :ensure t)
-(setq default-input-method "japanese-skk")
-(setq skk-kakutei-key (kbd "C-o"))
+
+(use-package ruby-mode
+  :config
+  (setq ruby-insert-encoding-magic-comment nil))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -72,7 +87,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (racket-mode yaml-mode magit counsel ivy paredit use-package))))
+    (rubocop helm-ag rspec-mode racket-mode yaml-mode magit counsel ivy paredit use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
