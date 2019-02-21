@@ -21,6 +21,10 @@ There are two things you can do about this warning:
 ;;;; Theme
 (load-theme 'wombat)
 
+;;;; Indent
+(setq indent-tabs-mode nil)
+(setq sh-basic-offset 2)
+
 (unless (require 'use-package nil t)
   (package-refresh-contents)
   (package-install 'use-package))
