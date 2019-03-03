@@ -18,6 +18,23 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+(when (memq window-system '(mac ns x))
+  (toggle-scroll-bar nil)
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize)))
+
+;;;; Mac OS X
+(when (eq system-type 'darwin)
+  (defun paste-to-osx (text &optional push)
+    (let ((process-connection-type nil))
+      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+	(process-send-string proc text)
+	(process-send-eof proc))))
+  (setq interprogram-cut-function 'paste-to-osx))
+
+
 ;;;; Theme
 (load-theme 'wombat)
 
@@ -34,6 +51,15 @@ There are two things you can do about this warning:
   (package-install 'ddskk))
 (setq default-input-method "japanese-skk")
 (setq skk-kakutei-key (kbd "C-o"))
+
+(when (eq system-type 'gnu/linux)
+  (setq browse-url-browser-function 'eww-browse-url))
+
+(use-package org
+  :config
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE"))
+  (global-set-key (kbd "C-c d u") 'helm-dash-install-user-docset)
+  (setq org-agenda-files '("~/notes.org" "~/calendar.org")))
 
 (use-package paredit
   :ensure t
@@ -54,6 +80,17 @@ There are two things you can do about this warning:
   (global-set-key (kbd "C-x C-f") 'helm-find-files))
 
 (use-package helm-config)
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
+(use-package undohist
+  :ensure t
+  :config
+  (undohist-initialize)
+  (setq undohist-ignored-files '("/tmp/" "COMMIT_EDITMSG")))
 
 (use-package magit
   :ensure t)
@@ -84,14 +121,58 @@ There are two things you can do about this warning:
   :config
   (setq ruby-insert-encoding-magic-comment nil))
 
+(use-package helm-ghq
+  :ensure t)
+
+(use-package helm-google
+  :ensure t)
+
+(use-package helm-dash
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c d h") 'helm-dash)
+  (global-set-key (kbd "C-c d a") 'helm-dash-activate-docset)
+  (global-set-key (kbd "C-c d d") 'helm-dash-deactivate-docset)
+  (global-set-key (kbd "C-c d i") 'helm-dash-install-docset)
+  (global-set-key (kbd "C-c d u") 'helm-dash-install-user-docset))
+
+(use-package helm-mt
+  :ensure t)
+
+(use-package buffer-expose
+  :ensure t)
+
+(use-package presentation
+  :ensure t)
+
+(use-package winner
+  :ensure t
+  :config
+  (winner-mode t))
+
+(use-package elscreen
+  :ensure t
+  :config
+  (elscreen-start))
+
+(use-package helm-elscreen
+  :ensure t)
+
+(use-package clocker
+  :ensure t
+  :config
+  (clocker-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/test.org")))
+ '(org-clock-clocktable-default-properties (quote (:maxlevel 3 :scope file)))
  '(package-selected-packages
    (quote
-    (rubocop helm-ag rspec-mode racket-mode yaml-mode magit counsel ivy paredit use-package))))
+    (slack helm-elscreen elscreen-persist elscreen yaml-mode use-package undohist undo-tree review-mode racket-mode presentation paredit magit helm-projectile helm-mt helm-google helm-ghq helm-dash helm-ag ddskk buffer-expose))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
