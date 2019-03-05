@@ -57,9 +57,28 @@ There are two things you can do about this warning:
 
 (use-package org
   :config
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE"))
-  (global-set-key (kbd "C-c d u") 'helm-dash-install-user-docset)
-  (setq org-agenda-files '("~/notes.org" "~/calendar.org")))
+  (setq org-agenda-files (list "~/org/" "~/org/diary/" "~/org/project/" "~/org/notes"))
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "WAIT(w)" "NOTE(n)" "ALWAYS(a)" "|" "DONE(d)" "SOMEDAY(s)" "CANCEL(c)")))
+  (setq org-capture-templates
+	'(("t" "TODO" entry (file "~/org/todo.org")
+	   "* TODO %?\n")
+	  ("T" "期限付きTODO" entry (file "~/org/todo.org")
+	   "* TODO %?\n  DEADLINE: %^t\n")
+	  ("n" "メモ" entry (file "~/org/notes.org")
+	   "* NOTE %?\n")
+	  ("N" "期限付きメモ" entry (file "~/org/notes.org")
+	   "* NOTE %?\n  SCHEDULED: %^t\n")
+	  ("c" "日程" entry (file "~/org/calendar.org")
+	   "* NOTE %?\n  SCHEDULED: %^t\n")))
+  (setq org-log-done 'time)
+  (setq org-clock-into-drawer t)
+  (setq org-hide-leading-stars t)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "\C-c c") 'org-capture)
+  (global-set-key (kbd "\C-c l") 'org-store-link)
+  (global-set-key (kbd "\C-c b") 'org-iswitchb)
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)))
 
 (use-package paredit
   :ensure t
@@ -161,18 +180,27 @@ There are two things you can do about this warning:
 (use-package clocker
   :ensure t
   :config
-  (clocker-mode 1))
+  (clocker-mode 1)
+  (setq clocker-keep-org-file-always-visible nil))
+
+(use-package restart-emacs
+  :ensure t)
+
+(use-package org-clock-convenience
+  :ensure t
+  :bind (:map org-agenda-mode-map
+   	      ("<S-up>" . org-clock-convenience-timestamp-up)
+   	      ("<S-down>" . org-clock-convenience-timestamp-down)))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/test.org")))
- '(org-clock-clocktable-default-properties (quote (:maxlevel 3 :scope file)))
  '(package-selected-packages
    (quote
-    (slack helm-elscreen elscreen-persist elscreen yaml-mode use-package undohist undo-tree review-mode racket-mode presentation paredit magit helm-projectile helm-mt helm-google helm-ghq helm-dash helm-ag ddskk buffer-expose))))
+    (org-clock-convenience org-clock-today slack helm-elscreen elscreen-persist elscreen yaml-mode use-package undohist undo-tree review-mode racket-mode presentation paredit magit helm-projectile helm-mt helm-google helm-ghq helm-dash helm-ag ddskk buffer-expose))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
