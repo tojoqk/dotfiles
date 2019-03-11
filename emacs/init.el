@@ -18,8 +18,19 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+(unless (require 'use-package nil t)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (when (memq window-system '(mac ns x))
   (toggle-scroll-bar nil)
+  (tool-bar-mode -1)
+  (defun set-alpha (alpha-num)
+    "set frame parameter 'alpha"
+    (interactive "nAlpha: ")
+    (set-frame-parameter nil 'alpha (cons alpha-num '(90))))
+
+  (set-face-attribute 'default nil :height 80)
   (use-package exec-path-from-shell
     :ensure t
     :init
@@ -42,10 +53,6 @@ There are two things you can do about this warning:
 (setq indent-tabs-mode nil)
 (setq sh-basic-offset 2)
 
-(unless (require 'use-package nil t)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (unless (require 'skk nil t)
   (package-refresh-contents)
   (package-install 'ddskk))
@@ -57,7 +64,7 @@ There are two things you can do about this warning:
 
 (use-package org
   :config
-  (setq org-agenda-files (list "~/org/" "~/org/diary/" "~/org/project/" "~/org/notes"))
+  (setq org-agenda-files (list "~/org/" "~/org/diary/" "~/org/project/"))
   (setq org-todo-keywords
 	'((sequence "TODO(t)" "WAIT(w)" "NOTE(n)" "ALWAYS(a)" "|" "DONE(d)" "SOMEDAY(s)" "CANCEL(c)")))
   (setq org-capture-templates
@@ -69,16 +76,20 @@ There are two things you can do about this warning:
 	   "* NOTE %?\n")
 	  ("N" "期限付きメモ" entry (file "~/org/notes.org")
 	   "* NOTE %?\n  SCHEDULED: %^t\n")
-	  ("c" "日程" entry (file "~/org/calendar.org")
-	   "* NOTE %?\n  SCHEDULED: %^t\n")))
+	  ("c" "カレンダー" entry (file "~/org/calendar.org")
+	   "* %?\n  SCHEDULED: %^t\n")
+	  ("i" "アイデア" entry (file "~/org/idea.org")
+	   "* %?\n")))
   (setq org-log-done 'time)
   (setq org-clock-into-drawer t)
-  (setq org-hide-leading-stars t)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "\C-c c") 'org-capture)
-  (global-set-key (kbd "\C-c l") 'org-store-link)
-  (global-set-key (kbd "\C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c o a") 'org-agenda)
+  (global-set-key (kbd "\C-c o c") 'org-capture)
+  (global-set-key (kbd "\C-c o l") 'org-store-link)
+  (global-set-key (kbd "\C-c o b") 'org-iswitchb)
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)))
+
+(use-package org-beautify-theme
+  :ensure t)
 
 (use-package paredit
   :ensure t
@@ -180,11 +191,13 @@ There are two things you can do about this warning:
 (use-package clocker
   :ensure t
   :config
-  (clocker-mode 1)
+  ;; (clocker-mode 1)
   (setq clocker-keep-org-file-always-visible nil))
 
 (use-package restart-emacs
-  :ensure t)
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c c r") 'restart-emacs))
 
 (use-package org-clock-convenience
   :ensure t
@@ -192,6 +205,30 @@ There are two things you can do about this warning:
    	      ("<S-up>" . org-clock-convenience-timestamp-up)
    	      ("<S-down>" . org-clock-convenience-timestamp-down)))
 
+(use-package multi-term
+  :config
+  (term-line-mode)
+  (global-set-key (kbd "C-c t t")
+		  (lambda ()
+		    (interactive)
+		    (if (get-buffer "*terminal<1>*")
+			(switch-to-buffer "*terminal<1>*")
+		      (multi-term))))
+  (global-set-key (kbd "C-c t c")
+		  (lambda ()
+		    (interactive)
+		    (multi-term)))
+  (global-set-key (kbd "C-c t n") 'multi-term-next)
+  (global-set-key (kbd "C-c t p") 'multi-term-prev))
+
+(use-package org-journal
+  :ensure t
+  :config
+  (setq org-journal-dir "~/org/journal/")
+  (setq org-journal-date-format "%A, %d %B %Y"))
+
+(use-package org-download
+  :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -200,7 +237,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-clock-convenience org-clock-today slack helm-elscreen elscreen-persist elscreen yaml-mode use-package undohist undo-tree review-mode racket-mode presentation paredit magit helm-projectile helm-mt helm-google helm-ghq helm-dash helm-ag ddskk buffer-expose))))
+    (org-clock-convenience restart-emacs clocker helm-elscreen elscreen presentation buffer-expose helm-mt helm-dash helm-google helm-ghq helm-ag helm-projectile review-mode yaml-mode racket-mode magit undohist undo-tree helm paredit ddskk exec-path-from-shell use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
