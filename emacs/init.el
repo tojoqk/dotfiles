@@ -47,9 +47,6 @@ There are two things you can do about this warning:
   (setq make-backup-files nil)
   (setq auto-save-default nil))
 
-;;;; Theme
-(load-theme 'wombat)
-
 ;;;; Indent
 (setq indent-tabs-mode nil)
 (setq sh-basic-offset 2)
@@ -88,7 +85,6 @@ There are two things you can do about this warning:
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cb" 'org-iswitchb)
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
   (setq org-use-speed-commands t)
   )
 
