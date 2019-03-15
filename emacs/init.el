@@ -29,11 +29,6 @@ There are two things you can do about this warning:
     "set frame parameter 'alpha"
     (interactive "nAlpha: ")
     (set-frame-parameter nil 'alpha (cons alpha-num '(90))))
-  (cond
-   ((eq system-type 'darwin)
-    (set-face-attribute 'default nil :height 140))
-   (t
-    (set-face-attribute 'default nil :height 80)))
   (use-package exec-path-from-shell
     :ensure t
     :init
@@ -88,11 +83,14 @@ There are two things you can do about this warning:
 	   "* %?\n")))
   (setq org-log-done 'time)
   (setq org-clock-into-drawer t)
-  (global-set-key (kbd "C-c o a") 'org-agenda)
-  (global-set-key (kbd "\C-c o c") 'org-capture)
-  (global-set-key (kbd "\C-c o l") 'org-store-link)
-  (global-set-key (kbd "\C-c o b") 'org-iswitchb)
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)))
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
+  (setq org-use-speed-commands t)
+  )
 
 (use-package org-beautify-theme
   :ensure t)
@@ -112,6 +110,7 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (helm-mode 1)
+  (global-set-key (kbd "C-c h" 'helm-command-prefix))
   (global-set-key (kbd "M-x") 'helm-M-x)	    ;; M-X を 絞り込み
   (global-set-key (kbd "C-x C-f") 'helm-find-files))
 
@@ -161,7 +160,10 @@ There are two things you can do about this warning:
   :ensure t)
 
 (use-package helm-google
-  :ensure t)
+  :ensure t
+  :config
+  (when (executable-find "curl")
+    (setq helm-google-suggest-use-curl-p t)))
 
 (use-package helm-dash
   :ensure t
@@ -197,13 +199,13 @@ There are two things you can do about this warning:
 (use-package clocker
   :ensure t
   :config
-  (clocker-mode 1)
+  ;; (clocker-mode 1)
   (setq clocker-keep-org-file-always-visible nil))
 
 (use-package restart-emacs
   :ensure t
   :config
-  (global-set-key (kbd "C-c c r") 'restart-emacs))
+  (global-set-key (kbd "C-c e r") 'restart-emacs))
 
 (use-package org-clock-convenience
   :ensure t
@@ -234,4 +236,7 @@ There are two things you can do about this warning:
   (setq org-journal-date-format "%A, %d %B %Y"))
 
 (use-package org-download
+  :ensure t)
+
+(use-package slack
   :ensure t)
