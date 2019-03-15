@@ -108,13 +108,13 @@ There are two things you can do about this warning:
 
 (use-package helm
   :ensure t
+  :init
+  (use-package helm-config)
   :config
   (helm-mode 1)
-  (global-set-key (kbd "C-c h" 'helm-command-prefix))
-  (global-set-key (kbd "M-x") 'helm-M-x)	    ;; M-X を 絞り込み
+  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-f") 'helm-find-files))
-
-(use-package helm-config)
 
 (use-package undo-tree
   :ensure t
