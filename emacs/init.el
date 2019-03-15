@@ -235,18 +235,3 @@ There are two things you can do about this warning:
 
 (use-package org-download
   :ensure t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (org-clock-convenience restart-emacs clocker helm-elscreen elscreen presentation buffer-expose helm-mt helm-dash helm-google helm-ghq helm-ag helm-projectile review-mode yaml-mode racket-mode magit undohist undo-tree helm paredit ddskk exec-path-from-shell use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
