@@ -34,6 +34,12 @@ There are two things you can do about this warning:
     :init
     (exec-path-from-shell-initialize)))
 
+(setq inhibit-startup-screen t)
+(global-set-key (kbd "C-c e c")
+                (lambda ()
+                  (interactive)
+                  (find-file "~/.ghq/github.com/tojoqk/dotfiles/emacs/init.el")))
+
 ;;;; Mac OS X
 (when (eq system-type 'darwin)
   (defun paste-to-osx (text &optional push)
@@ -234,5 +240,16 @@ There are two things you can do about this warning:
 (use-package org-download
   :ensure t)
 
-(use-package slack
+;; (use-package slack
+;;   :ensure t)
+
+(use-package image+
   :ensure t)
+
+(use-package helm-eww
+  :ensure t)
+
+(use-package ace-link
+  :ensure t
+  :config
+  (ace-link-setup-default))
