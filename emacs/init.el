@@ -105,8 +105,7 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (add-hook 'racket-mode-hook           #'enable-paredit-mode)
-  (add-hook 'racket-repl-mode-hook      #'enable-paredit-mode)
-  (setq racket-memory-limit 256))
+  (add-hook 'racket-repl-mode-hook      #'enable-paredit-mode))
 
 (use-package yaml-mode
   :ensure t)
