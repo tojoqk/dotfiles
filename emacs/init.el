@@ -57,11 +57,11 @@ There are two things you can do about this warning:
 (setq indent-tabs-mode nil)
 (setq sh-basic-offset 2)
 
-(unless (require 'skk nil t)
-  (package-refresh-contents)
-  (package-install 'ddskk))
-(setq default-input-method "japanese-skk")
-(setq skk-kakutei-key (kbd "C-o"))
+;; (unless (require 'skk nil t)
+;;   (package-refresh-contents)
+;;   (package-install 'ddskk))
+;; (setq default-input-method "japanese-skk")
+;; (setq skk-kakutei-key (kbd "C-o"))
 
 (when (eq system-type 'gnu/linux)
   (setq browse-url-browser-function 'eww-browse-url))
