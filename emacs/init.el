@@ -66,37 +66,6 @@ There are two things you can do about this warning:
 (when (eq system-type 'gnu/linux)
   (setq browse-url-browser-function 'eww-browse-url))
 
-(use-package org
-  :config
-  (setq org-agenda-files (list "~/org/" "~/org/diary/" "~/org/project/"))
-  (setq org-todo-keywords
-	'((sequence "TODO(t)" "WAIT(w)" "NOTE(n)" "ALWAYS(a)" "|" "DONE(d)" "SOMEDAY(s)" "CANCEL(c)")))
-  (setq org-capture-templates
-	'(("t" "TODO" entry (file "~/org/todo.org")
-	   "* TODO %?\n")
-	  ("T" "期限付きTODO" entry (file "~/org/todo.org")
-	   "* TODO %?\n  DEADLINE: %^t\n")
-	  ("n" "メモ" entry (file "~/org/notes.org")
-	   "* NOTE %?\n")
-	  ("N" "期限付きメモ" entry (file "~/org/notes.org")
-	   "* NOTE %?\n  SCHEDULED: %^t\n")
-	  ("c" "カレンダー" entry (file "~/org/calendar.org")
-	   "* %?\n  SCHEDULED: %^t\n")
-	  ("i" "アイデア" entry (file "~/org/idea.org")
-	   "* %?\n")))
-  (setq org-log-done 'time)
-  (setq org-clock-into-drawer t)
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cb" 'org-iswitchb)
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-  (setq org-use-speed-commands t)
-  )
-
-(use-package org-beautify-theme
-  :ensure t)
-
 (use-package paredit
   :ensure t
   :config 
@@ -198,22 +167,10 @@ There are two things you can do about this warning:
 (use-package helm-elscreen
   :ensure t)
 
-(use-package clocker
-  :ensure t
-  :config
-  ;; (clocker-mode 1)
-  (setq clocker-keep-org-file-always-visible nil))
-
 (use-package restart-emacs
   :ensure t
   :config
   (global-set-key (kbd "C-c e r") 'restart-emacs))
-
-(use-package org-clock-convenience
-  :ensure t
-  :bind (:map org-agenda-mode-map
-   	      ("<S-up>" . org-clock-convenience-timestamp-up)
-   	      ("<S-down>" . org-clock-convenience-timestamp-down)))
 
 (use-package multi-term
   :config
@@ -230,15 +187,6 @@ There are two things you can do about this warning:
 		    (multi-term)))
   (global-set-key (kbd "C-c t n") 'multi-term-next)
   (global-set-key (kbd "C-c t p") 'multi-term-prev))
-
-(use-package org-journal
-  :ensure t
-  :config
-  (setq org-journal-dir "~/org/journal/")
-  (setq org-journal-date-format "%A, %d %B %Y"))
-
-(use-package org-download
-  :ensure t)
 
 ;; (use-package slack
 ;;   :ensure t)
