@@ -158,13 +158,13 @@ There are two things you can do about this warning:
   :config
   (winner-mode t))
 
-(use-package elscreen
-  :ensure t
-  :config
-  (elscreen-start))
+;; (use-package elscreen
+;;   :ensure t
+;;   :config
+;;   (elscreen-start))
 
-(use-package helm-elscreen
-  :ensure t)
+;; (use-package helm-elscreen
+;;   :ensure t)
 
 (use-package restart-emacs
   :ensure t
