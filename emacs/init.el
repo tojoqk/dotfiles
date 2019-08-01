@@ -29,8 +29,11 @@ There are two things you can do about this warning:
     "set frame parameter 'alpha"
     (interactive "nAlpha: ")
     (set-frame-parameter nil 'alpha (cons alpha-num '(90))))
-
-  (set-face-attribute 'default nil :height 80)
+  (cond
+   ((eq system-type 'darwin)
+    (set-face-attribute 'default nil :height 140))
+   (t
+    (set-face-attribute 'default nil :height 80)))
   (use-package exec-path-from-shell
     :ensure t
     :init
@@ -45,6 +48,9 @@ There are two things you can do about this warning:
 	(process-send-eof proc))))
   (setq interprogram-cut-function 'paste-to-osx))
 
+(when (string= (system-name) "tojo.local")
+  (setq make-backup-files nil)
+  (setq auto-save-default nil))
 
 ;;;; Theme
 (load-theme 'wombat)
@@ -191,7 +197,7 @@ There are two things you can do about this warning:
 (use-package clocker
   :ensure t
   :config
-  ;; (clocker-mode 1)
+  (clocker-mode 1)
   (setq clocker-keep-org-file-always-visible nil))
 
 (use-package restart-emacs
