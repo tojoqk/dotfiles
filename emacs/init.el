@@ -1,3 +1,9 @@
+(setq inhibit-startup-screen t)
+(global-set-key (kbd "C-c e c")
+                (lambda ()
+                  (interactive)
+                  (find-file "~/.ghq/github.com/tojoqk/dotfiles/emacs/init.el")))
+
 ;;;; Package initialization
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -17,54 +23,41 @@ There are two things you can do about this warning:
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (unless (require 'use-package nil t)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(when (memq window-system '(mac ns x))
-  (toggle-scroll-bar nil)
-  (tool-bar-mode -1)
-  (defun set-alpha (alpha-num)
-    "set frame parameter 'alpha"
-    (interactive "nAlpha: ")
-    (set-frame-parameter nil 'alpha (cons alpha-num '(90))))
-  (use-package exec-path-from-shell
-    :ensure t
-    :init
-    (exec-path-from-shell-initialize)))
+;; (when (memq window-system '(mac ns x))
+;;   (setq inhibit-startup-screen t)
+;;   (toggle-scroll-bar -1)
+;;   (use-package exec-path-from-shell
+;;     :ensure t
+;;     :init
+;;     (exec-path-from-shell-initialize)))
 
 (setq inhibit-startup-screen t)
+
+;; mode line
+(display-battery-mode)
+
 (global-set-key (kbd "C-c e c")
                 (lambda ()
                   (interactive)
-                  (find-file "~/.ghq/github.com/tojoqk/dotfiles/emacs/init.el")))
-
-;;;; Mac OS X
-(when (eq system-type 'darwin)
-  (defun paste-to-osx (text &optional push)
-    (let ((process-connection-type nil))
-      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-	(process-send-string proc text)
-	(process-send-eof proc))))
-  (setq interprogram-cut-function 'paste-to-osx))
-
-(when (string= (system-name) "tojo.local")
-  (setq make-backup-files nil)
-  (setq auto-save-default nil))
+                  (find-file "~/dotfiles/emacs/init.el")))
 
 ;;;; Indent
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (setq sh-basic-offset 2)
 
-;; (unless (require 'skk nil t)
-;;   (package-refresh-contents)
-;;   (package-install 'ddskk))
-;; (setq default-input-method "japanese-skk")
-;; (setq skk-kakutei-key (kbd "C-o"))
-
-(when (eq system-type 'gnu/linux)
-  (setq browse-url-browser-function 'eww-browse-url))
+(unless (require 'skk nil t)
+  (package-refresh-contents)
+  (package-install 'ddskk))
+(setq default-input-method "japanese-skk")
+(setq skk-kakutei-key (kbd ""))
+(setq skk-henkan-okuri-strictly t)
+(setq skk-henkan-strict-okuri-precedence t)
 
 (use-package paredit
   :ensure t
@@ -147,25 +140,6 @@ There are two things you can do about this warning:
 (use-package helm-mt
   :ensure t)
 
-(use-package buffer-expose
-  :ensure t)
-
-(use-package presentation
-  :ensure t)
-
-(use-package winner
-  :ensure t
-  :config
-  (winner-mode t))
-
-;; (use-package elscreen
-;;   :ensure t
-;;   :config
-;;   (elscreen-start))
-
-;; (use-package helm-elscreen
-;;   :ensure t)
-
 (use-package restart-emacs
   :ensure t
   :config
@@ -175,20 +149,17 @@ There are two things you can do about this warning:
   :config
   (term-line-mode)
   (global-set-key (kbd "C-c t t")
-		  (lambda ()
-		    (interactive)
-		    (if (get-buffer "*terminal<1>*")
-			(switch-to-buffer "*terminal<1>*")
-		      (multi-term))))
+                  (lambda ()
+                    (interactive)
+                    (if (get-buffer "*terminal<1>*")
+                        (switch-to-buffer "*terminal<1>*")
+                      (multi-term))))
   (global-set-key (kbd "C-c t c")
-		  (lambda ()
-		    (interactive)
-		    (multi-term)))
+                  (lambda ()
+                    (interactive)
+                    (multi-term)))
   (global-set-key (kbd "C-c t n") 'multi-term-next)
   (global-set-key (kbd "C-c t p") 'multi-term-prev))
-
-;; (use-package slack
-;;   :ensure t)
 
 (use-package image+
   :ensure t)
@@ -200,3 +171,100 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (ace-link-setup-default))
+
+(use-package markdown-mode+
+  :ensure t)
+
+(use-package exwm
+  :ensure t
+  :init
+  (use-package exwm-edit
+    :ensure t
+    :init
+    (use-package exwm-edit)
+    :config
+    (defun qk-exwm/on-exwm-edit-compose ()
+      (funcall 'markdown-mode))
+    (add-hook 'exwm-edit-compose-hook 'qk-exwm/on-exwm-edit-compose))
+  :config
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (fringe-mode 1)
+  (require 'exwm-config)
+  (defun exwm-rename-buffer ()
+    (interactive)
+    (exwm-workspace-rename-buffer exwm-class-name))
+  (add-hook 'exwm-update-class-hook 'exwm-rename-buffer)
+  (setq display-time-default-load-average nil)
+  (display-time-mode t)
+
+  (setq exwm-input-global-keys
+        `(
+          ;; Bind "s-r" to exit char-mode and fullscreen mode.
+          ([?\s-r] . exwm-reset)
+          ;; Bind "s-w" to switch workspace interactively.
+          ([?\s-w] . exwm-workspace-switch)
+          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))
+          ;; Bind "s-&" to launch applications ('M-&' also works if the output
+          ;; buffer does not bother you).
+          ([?\s-&] . (lambda (command)
+		       (interactive (list (read-shell-command "$ ")))
+		       (start-process-shell-command command nil command)))
+          ;; Bind "s-<f2>" to "slock", a simple X display locker.
+          ([s-f2] . (lambda ()
+		      (interactive)
+		      (start-process "" nil "/usr/bin/slock")))
+          ([s-escape] . (lambda ()
+                          (interactive)
+                          (start-process "" nil "/usr/bin/systemctl" "suspend")))))
+
+  (setq exwm-input-simulation-keys
+        '(
+          ;; movement
+          ([?\C-b] . [left])
+          ([?\M-b] . [C-left])
+          ([?\C-f] . [right])
+          ([?\M-f] . [C-right])
+          ([?\C-p] . [up])
+          ([?\C-n] . [down])
+          ([?\C-a] . [home])
+          ([?\C-e] . [end])
+          ([?\M-v] . [prior])
+          ([?\C-v] . [next])
+          ([?\C-d] . [delete])
+          ([?\C-k] . [S-end delete])
+          ;; cut/paste.
+          ([?\C-w] . [?\C-x])
+          ([?\M-w] . [?\C-c])
+          ([?\C-y] . [?\C-v])
+          ;; search
+          ([?\C-s] . [?\C-f])
+          ;; escape
+          ([?\C-g] . [escape])
+          ))
+  (setq exwm-workspace-number 4)
+  (add-hook 'exwm-manage-finish-hook
+            (lambda ()
+              (when (and exwm-class-name
+                         (string= exwm-class-name "Sakura"))
+                (exwm-input-set-local-simulation-keys nil))))
+  (exwm-enable))
+
+(use-package prettier
+  :init
+  (add-hook 'after-init-hook #'global-prettier-mode))
+
+(use-package editorconfig
+  :ensure t)
+
+(use-package terraform-mode
+  :ensure t
+  :config
+  (terraform-format-on-save-mode t))
