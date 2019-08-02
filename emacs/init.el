@@ -23,20 +23,15 @@ There are two things you can do about this warning:
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; (when (memq window-system '(mac ns x))
-;;   (setq inhibit-startup-screen t)
-;;   (toggle-scroll-bar -1)
-;;   (use-package exec-path-from-shell
-;;     :ensure t
-;;     :init
-;;     (exec-path-from-shell-initialize)))
+(require 'uim-leim)
+(setq default-input-method "japanese-mozc-uim")
 
 (setq inhibit-startup-screen t)
 
 (global-set-key (kbd "C-c e c")
                 (lambda ()
                   (interactive)
-                  (find-file "~/.git/dotfiles/emacs/init.el")))
+                  (find-file "~/git/dotfiles/emacs/init.el")))
 
 ;; mode line
 (display-battery-mode)
@@ -244,11 +239,6 @@ There are two things you can do about this warning:
   (exwm-systemtray-enable)
   (exwm-enable))
 
-
-;; (use-package prettier
-;;   :init
-;;   (add-hook 'after-init-hook #'global-prettier-mode))
-
 (use-package editorconfig
   :ensure t)
 
@@ -261,4 +251,3 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (load-theme 'cyberpunk t))
-
