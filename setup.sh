@@ -1,5 +1,3 @@
 #!/bin/sh
-ln -sf ~/dotfiles/spacemacs ~/.spacemacs
-ln -sf ~/dotfiles/uim ~/.uim
-ln -sf ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -sf ~/dotfiles/fish/config.fish ~/.config/fish/config.fish
+ln -sf ~/git/dotfiles/uim ~/.uim
+ln -sf ~/git/dotfiles/tmux.conf ~/.tmux.conf
