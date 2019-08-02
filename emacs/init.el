@@ -1,9 +1,3 @@
-(setq inhibit-startup-screen t)
-(global-set-key (kbd "C-c e c")
-                (lambda ()
-                  (interactive)
-                  (find-file "~/.ghq/github.com/tojoqk/dotfiles/emacs/init.el")))
-
 ;;;; Package initialization
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -39,25 +33,18 @@ There are two things you can do about this warning:
 
 (setq inhibit-startup-screen t)
 
-;; mode line
-(display-battery-mode)
-
 (global-set-key (kbd "C-c e c")
                 (lambda ()
                   (interactive)
-                  (find-file "~/dotfiles/emacs/init.el")))
+                  (find-file "~/.git/dotfiles/emacs/init.el")))
+
+;; mode line
+(display-battery-mode)
+
 
 ;;;; Indent
 (setq-default indent-tabs-mode nil)
 (setq sh-basic-offset 2)
-
-(unless (require 'skk nil t)
-  (package-refresh-contents)
-  (package-install 'ddskk))
-(setq default-input-method "japanese-skk")
-(setq skk-kakutei-key (kbd ""))
-(setq skk-henkan-okuri-strictly t)
-(setq skk-henkan-strict-okuri-precedence t)
 
 (use-package paredit
   :ensure t
@@ -180,8 +167,6 @@ There are two things you can do about this warning:
   :init
   (use-package exwm-edit
     :ensure t
-    :init
-    (use-package exwm-edit)
     :config
     (defun qk-exwm/on-exwm-edit-compose ()
       (funcall 'markdown-mode))
@@ -255,11 +240,14 @@ There are two things you can do about this warning:
               (when (and exwm-class-name
                          (string= exwm-class-name "Sakura"))
                 (exwm-input-set-local-simulation-keys nil))))
+  (require 'exwm-systemtray)
+  (exwm-systemtray-enable)
   (exwm-enable))
 
-(use-package prettier
-  :init
-  (add-hook 'after-init-hook #'global-prettier-mode))
+
+;; (use-package prettier
+;;   :init
+;;   (add-hook 'after-init-hook #'global-prettier-mode))
 
 (use-package editorconfig
   :ensure t)
@@ -268,3 +256,9 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (terraform-format-on-save-mode t))
+
+(use-package cyberpunk-theme
+  :ensure t
+  :config
+  (load-theme 'cyberpunk t))
+
