@@ -177,18 +177,11 @@ There are two things you can do about this warning:
       (funcall 'markdown-mode))
     (add-hook 'exwm-edit-compose-hook 'qk-exwm/on-exwm-edit-compose))
   :config
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (fringe-mode 1)
   (require 'exwm-config)
   (defun exwm-rename-buffer ()
     (interactive)
     (exwm-workspace-rename-buffer exwm-class-name))
   (add-hook 'exwm-update-class-hook 'exwm-rename-buffer)
-  (setq display-time-default-load-average nil)
-  (display-time-mode t)
-
   (setq exwm-input-global-keys
         `(
           ;; Bind "s-r" to exit char-mode and fullscreen mode.
@@ -261,3 +254,8 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (load-theme 'cyberpunk t))
+
+(use-package erc-twitch
+  :ensure t
+  :config
+  (erc-twitch-enable))
