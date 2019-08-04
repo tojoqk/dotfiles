@@ -227,7 +227,7 @@ There are two things you can do about this warning:
           ([?\C-v] . [next])
           ([?\C-d] . [delete])
           ([?\C-k] . [S-end delete])
-          ;; cut/paste.
+          ;; cut/paste
           ([?\C-w] . [?\C-x])
           ([?\M-w] . [?\C-c])
           ([?\C-y] . [?\C-v])
