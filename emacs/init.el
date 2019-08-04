@@ -33,9 +33,16 @@ There are two things you can do about this warning:
                   (interactive)
                   (find-file "~/git/dotfiles/emacs/init.el")))
 
-;; mode line
-(display-battery-mode)
 
+;; Appearance
+(setq inhibit-startup-screen t)
+(display-battery-mode)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(fringe-mode 1)
+(setq display-time-default-load-average nil)
+(display-time-mode t)
 
 ;;;; Indent
 (setq-default indent-tabs-mode nil)
