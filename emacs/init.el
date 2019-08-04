@@ -23,10 +23,10 @@ There are two things you can do about this warning:
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'uim-leim)
-(setq default-input-method "japanese-mozc-uim")
-
-(setq inhibit-startup-screen t)
+;; (require 'uim-leim)
+;; (setq default-input-method "japanese-mozc")
+(require 'mozc)
+(setq default-input-method "japanese-mozc")
 
 (global-set-key (kbd "C-c e c")
                 (lambda ()
