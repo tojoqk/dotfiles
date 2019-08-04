@@ -33,6 +33,9 @@ There are two things you can do about this warning:
                   (interactive)
                   (find-file "~/git/dotfiles/emacs/init.el")))
 
+;; Backup files
+(setq backup-directory-alist '(("." . "~/tmp/emacs/backups")))
+(setq backup-by-copying t)
 
 ;; Appearance
 (setq inhibit-startup-screen t)
