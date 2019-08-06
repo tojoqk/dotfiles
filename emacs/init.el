@@ -180,8 +180,16 @@ There are two things you can do about this warning:
   (require 'exwm-config)
   (defun exwm-rename-buffer ()
     (interactive)
-    (exwm-workspace-rename-buffer exwm-class-name))
+    (let ((new-buffer-name
+           (cond
+            ((string-match-p "Toggl" (or exwm-title ""))
+             (concat exwm-class-name ": Toggl"))
+            (t
+             (concat exwm-class-name ": " (or exwm-title ""))))))
+      (when (not (string-equal (or (buffer-name) "") new-buffer-name))
+        (exwm-workspace-rename-buffer new-buffer-name))))
   (add-hook 'exwm-update-class-hook 'exwm-rename-buffer)
+  (add-hook 'exwm-update-title-hook 'exwm-rename-buffer)
   (setq exwm-input-global-keys
         `(
           ;; Bind "s-r" to exit char-mode and fullscreen mode.
@@ -232,6 +240,7 @@ There are two things you can do about this warning:
           ;; escape
           ([?\C-g] . [escape])
           ))
+
   (setq exwm-workspace-number 4)
   (add-hook 'exwm-manage-finish-hook
             (lambda ()
