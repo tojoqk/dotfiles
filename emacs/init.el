@@ -50,6 +50,9 @@ There are two things you can do about this warning:
 (setq-default indent-tabs-mode nil)
 (setq sh-basic-offset 2)
 
+;; Browser
+(setq browse-url-new-window-flag t)
+
 (use-package paredit
   :ensure t
   :config 
