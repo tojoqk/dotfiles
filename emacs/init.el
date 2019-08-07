@@ -106,6 +106,9 @@ There are two things you can do about this warning:
   (helm-projectile-on)
   (global-set-key (kbd "C-c p") 'projectile-command-map))
 
+(use-package ag
+  :ensure t)
+
 (use-package helm-ag
   :ensure t)
 
