@@ -273,3 +273,5 @@ There are two things you can do about this warning:
   :ensure t
   :config
   (erc-twitch-enable))
+
+(setq ring-bell-function 'ignore)
