@@ -23,9 +23,9 @@ There are two things you can do about this warning:
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package mozc
-  :config
-  (setq default-input-method "japanese-mozc"))
+;; (use-package mozc
+;;   :config
+;;   (setq default-input-method "japanese-mozc"))
 
 (global-set-key (kbd "C-c e c")
                 (lambda ()
