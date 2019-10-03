@@ -275,3 +275,16 @@ There are two things you can do about this warning:
   (erc-twitch-enable))
 
 (setq ring-bell-function 'ignore)
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (add-to-list 'slime-contribs 'slime-fancy)
+
+  ;; From https://www.emacswiki.org/emacs/ParEdit
+  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+  (defun override-slime-repl-bindings-with-paredit ()
+    (define-key slime-repl-mode-map
+      (read-kbd-macro paredit-backward-delete-key) nil))
+  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit))
