@@ -211,12 +211,12 @@ There are two things you can do about this warning:
           ;; Bind "s-&" to launch applications ('M-&' also works if the output
           ;; buffer does not bother you).
           ([?\s-&] . (lambda (command)
-		       (interactive (list (read-shell-command "$ ")))
-		       (start-process-shell-command command nil command)))
+                       (interactive (list (read-shell-command "$ ")))
+                       (start-process-shell-command command nil command)))
           ;; Bind "s-<f2>" to "slock", a simple X display locker.
           ([s-f2] . (lambda ()
-		      (interactive)
-		      (start-process "" nil "/usr/bin/slock")))
+                      (interactive)
+                      (start-process "" nil "/usr/bin/slock")))
           ([s-escape] . (lambda ()
                           (interactive)
                           (start-process "" nil "/usr/bin/systemctl" "suspend")))))
