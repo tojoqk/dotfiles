@@ -295,4 +295,7 @@ There are two things you can do about this warning:
     (package-refresh-contents)
     (package-install 'ddskk))
   (setq default-input-method "japanese-skk")
-  (setq skk-kakutei-key (kbd "C-o")))
+  (setq skk-kakutei-key (kbd "C-o"))
+
+  ;; Set Japanese font
+  (set-fontset-font t 'japanese-jisx0208 "Source Han Sans"))
