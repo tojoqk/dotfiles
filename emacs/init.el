@@ -174,6 +174,7 @@ There are two things you can do about this warning:
 
 (use-package exwm
   :ensure t
+  :if (not (string= "laptop" (system-name)))
   :init
   (use-package exwm-edit
     :ensure t
@@ -288,3 +289,10 @@ There are two things you can do about this warning:
     (define-key slime-repl-mode-map
       (read-kbd-macro paredit-backward-delete-key) nil))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit))
+
+(when (string= "laptop" (system-name))
+  (unless (require 'skk nil t)
+    (package-refresh-contents)
+    (package-install 'ddskk))
+  (setq default-input-method "japanese-skk")
+  (setq skk-kakutei-key (kbd "C-o")))
