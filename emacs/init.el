@@ -245,14 +245,16 @@ There are two things you can do about this warning:
           ([?\C-s] . [?\C-f])
           ;; escape
           ([?\C-g] . [escape])
-          ))
+          ;; escape 2
+          ([?\C-j] . [f6])))
 
   (setq exwm-workspace-number 4)
   (add-hook 'exwm-manage-finish-hook
             (lambda ()
-              (when (and exwm-class-name
-                         (string= exwm-class-name "Sakura"))
-                (exwm-input-set-local-simulation-keys nil))))
+              (cond
+               ((and exwm-class-name (string= exwm-class-name "Sakura"))
+                (exwm-input-set-local-simulation-keys nil))
+               (t nil))))
   (require 'exwm-systemtray)
   (exwm-systemtray-enable)
   (exwm-enable))
@@ -308,3 +310,17 @@ There are two things you can do about this warning:
 
   (transparency 80)
   (toggle-frame-fullscreen))
+
+(use-package migemo
+  :ensure t
+  :if (string= "office" (system-name))
+  :config
+  (setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")
+  (setq migemo-command "cmigemo")
+  (setq migemo-options '("-q" "--emacs"))
+  (setq migemo-user-dictionary nil)
+  (setq migemo-coding-system 'utf-8)
+  (setq migemo-regex-dictionary nil)
+  (load-library "migemo")
+  (migemo-init))
+
