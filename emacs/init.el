@@ -298,4 +298,13 @@ There are two things you can do about this warning:
   (setq skk-kakutei-key (kbd "C-o"))
 
   ;; Set Japanese font
-  (set-fontset-font t 'japanese-jisx0208 "Source Han Sans"))
+  (set-fontset-font t 'japanese-jisx0208 "Source Han Sans")
+
+  ;; Set transparency of emacs
+  (defun transparency (value)
+    "Sets the transparency of the frame window. 0=transparent/100=opaque"
+    (interactive "nTransparency Value 0 - 100 opaque:")
+    (set-frame-parameter (selected-frame) 'alpha value))
+
+  (transparency 80)
+  (toggle-frame-fullscreen))
