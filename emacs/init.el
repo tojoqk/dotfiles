@@ -17,7 +17,6 @@ There are two things you can do about this warning:
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (unless (require 'use-package nil t)
   (package-refresh-contents)
