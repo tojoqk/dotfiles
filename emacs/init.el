@@ -308,7 +308,10 @@ There are two things you can do about this warning:
     (interactive "nTransparency Value 0 - 100 opaque:")
     (set-frame-parameter (selected-frame) 'alpha value))
 
-  (transparency 80))
+  (transparency 80)
+
+  (use-package twittering-mode
+    :ensure t))
 
 (use-package migemo
   :ensure t
@@ -323,9 +326,6 @@ There are two things you can do about this warning:
   (load-library "migemo")
   (migemo-init))
 
-
-  (use-package twittering-mode
-    :ensure t))
 
 (use-package w3m
   :ensure t)
