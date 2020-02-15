@@ -1,0 +1,6 @@
+escape ^Tt
+defbce on
+term xterm-256color
+defscrollback 100000
+hardstatus alwayslastline "%{= wk} %-w%{= dd} %n %t* %{-}%+w"
+altscreen on
