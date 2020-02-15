@@ -337,3 +337,7 @@ There are two things you can do about this warning:
   (other-window -1))
 
 (global-set-key (kbd "C-c w w") 'weblio)
+
+;; Development environment for Guile
+(use-package geiser
+  :ensure t)
