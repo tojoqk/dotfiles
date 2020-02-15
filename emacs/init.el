@@ -310,3 +310,15 @@ There are two things you can do about this warning:
 
   (use-package twittering-mode
     :ensure t))
+
+(use-package w3m
+  :ensure t)
+
+(defun weblio (value)
+  "Search world with weblio"
+  (interactive "sweblio: ")
+  (other-window 1)
+  (w3m-goto-url (concat "https://ejje.weblio.jp/content/" value))
+  (other-window -1))
+
+(global-set-key (kbd "C-c w w") 'weblio)
