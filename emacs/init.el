@@ -306,5 +306,4 @@ There are two things you can do about this warning:
     (interactive "nTransparency Value 0 - 100 opaque:")
     (set-frame-parameter (selected-frame) 'alpha value))
 
-  (transparency 80)
-  (toggle-frame-fullscreen))
+  (transparency 80))
