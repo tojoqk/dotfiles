@@ -308,8 +308,7 @@ There are two things you can do about this warning:
     (interactive "nTransparency Value 0 - 100 opaque:")
     (set-frame-parameter (selected-frame) 'alpha value))
 
-  (transparency 80)
-)
+  (transparency 80))
 
 (use-package migemo
   :ensure t
